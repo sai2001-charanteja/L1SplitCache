@@ -1,0 +1,24 @@
+Cache organization:
+Instruction cache (I$)
+4-way set associative
+16 K sets
+64-byte line size
+Read-only; MESI states limited to I, S, E
+
+Data cache (D$)
+8-way set associative
+16 K sets
+64-byte line size
+MESI states: M, E, S, I
+
+Assumptions:
+1. LRU replacement policy: 
+Most recently used way will be assigned as nways-1 and least recently used way is assigned with value 0
+MRU=nways-1
+LRU=0
+
+2. RFO: 
+If the cache line is in Modified (M) or Shared (S) state → Treat as an RFO. MESI transition will be M/S -> I
+If the cache line is in Exclusive (E) state → Treat as a peer read and change state to S (E -> S) (The expectation is the peer processor sends invalidate command again while writing and we change to I then)
+
+3. All other assumptions are as per the spec given
